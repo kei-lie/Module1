@@ -1,20 +1,19 @@
-import static java.lang.Math.round;
-
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 void main() {
-    int[][] marks = new int[5][3];
-    int sum = 0;
-    int total = 0;
-    // filling the array, adding sum
+    int[][] marks = {{5, 9, 7}, {8, 6, 5}, {7, 3, 9}};
+    double[] studentAvg = new double[3];
 
+    int overallSum = 0;
+    int overallTotal = 0;
 
     System.out.println("Student marks:");
-    for(int i = 0; i<5; i++){
-        for(int j = 0; j<3; j++){
-            marks[i][j] = (int)(Math.random() * 10)+1;
-            sum = sum + marks[i][j];
-            total ++;
+    for (int i = 0; i < marks.length; i++) {
+        int studentSum = 0;
+
+        for (int j = 0; j < marks[i].length; j++) {
+            overallSum += marks[i][j];
+            overallTotal++;
+            studentSum += marks[i][j];
+
             if (marks[i][j] > 9) {
                 System.out.print(marks[i][j] + "| ");
             } else {
@@ -22,23 +21,25 @@ void main() {
             }
         }
 
+        studentAvg[i] = calculateAverage(studentSum, marks[i].length);
         System.out.println();
     }
 
-    int avg = Average(sum, total);
-    String result = Result(avg);
-
-    System.out.println("Student mark average: "+ avg);
-    System.out.println("Student mark status: " + result);
+    for (int i = 0; i < studentAvg.length; i++) {
+        String result = calculateResult(studentAvg[i]);
+        System.out.println("Student " + (i + 1) + " average = " +
+                + studentAvg[i] + " | Result = " + result);
+    }
 }
 
-private int Average(int sum, int total){
-    int avg = sum / total;
-    return avg;
-}
 
-private String Result (int avg){
-    return switch(avg){
+private double calculateAverage(int sum, int total) {
+    double avg = (double) sum / total;
+    return Math.round(avg * 100.0) / 100.0;
+}
+private String calculateResult(double avg) {
+    int roundedAvg = (int) Math.round(avg);
+    return switch (roundedAvg) {
         case 10, 9 -> "Excellent";
         case 8, 7 -> "Good";
         case 6, 5 -> "Pass";
